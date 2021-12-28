@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs 
 from book_info import book
 
+domain = 'https://sharing.com.tw/'
 
 def search_sharing(keyword:str):
     url = f'https://sharing.com.tw/book_list_s.php?book_whit=0&book_data={keyword}&MM_update=form1'
@@ -13,12 +14,15 @@ def search_sharing(keyword:str):
 
     item_list = []
     for i, img in list(zip(items, imgs)):
-        name = i.find("td", {"class": "publishername"}).text.lstrip('\n')
+        name_block = i.find("td", {"class": "publishername"})
+        name = name_block.text.lstrip('\n')
+        link = domain + name_block.find("a")['href']
+
         publisher = i.find("td", {"class": "publisher"}).text.split('：')[-1]
-        image = img.find('img')['src']
+        image = domain + img.find('img')['src']
 
         try:
-            author = i.find("td", {"class": "publisher_au"}).text
+            author = i.find("td", {"class": "publisher_au"}).text.split('：')[-1]
         except AttributeError:
             author = ""
 
@@ -34,8 +38,11 @@ def search_sharing(keyword:str):
             elif '特價' in info:
                 discount_price = info.split('：')[-1]
 
-        item_list.append(book(name, price, discount_price, author, publisher, publish_date, image))
+        item_list.append(book(link, name, price, discount_price, author, publisher, publish_date, image=image))
     
     return item_list
 
-print(search_sharing("刑法"))
+
+test = search_sharing("民法")
+for each in test:
+    print(each)
