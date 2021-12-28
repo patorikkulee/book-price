@@ -8,5 +8,11 @@ class book:
         self.publish_date = publish_date
         self.image = image
 
-bk1 = book('民法', 300, 200, '帥李', '台大出版社', '2021-12-22', '123456789')
-print(bk1.name)
+    def __str__(self):
+        info = f"""
+作者: {self.author}
+原價: {self.price}
+特價: {self.discount_price}
+出版商: {self.publisher}
+出版日期: {self.publish_date}"""
+        return info
