@@ -38,7 +38,7 @@ def search_sharing(keyword:str):
             elif '特價' in info:
                 discount_price = info.split('：')[-1]
 
-        item_list.append(book(link, name, price, discount_price, author, publisher, publish_date, image=image))
+        item_list.append(book('新學林', link, name, price, discount_price, author, publisher, publish_date, image=image))
     
     return item_list
 

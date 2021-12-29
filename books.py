@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup as bs
 from book_info import book
 
 def preprocess_string(s:str):
-    s = s.replace('\n', '')
     s = s.replace(' ', '')
+    s = s.replace('\n', '')
     s = s.replace('\xa0', ', ')
     return s
 
@@ -26,7 +26,7 @@ def search_books(keyword:str):
         booktype, author, publisher, publish_date = [preprocess_string(x) for x in misc[2*i].text.split(',')]
         publish_date = publish_date.split(':')[-1]
         discount_price = misc[2*i+1].text.split(':')[-1]
-        item_list.append(book(links[i], names[i], '??', discount_price, author, publisher, publish_date, booktype, imgs[i]))
+        item_list.append(book('博客來', links[i], names[i], '??', discount_price, author, publisher, publish_date, booktype, imgs[i]))
     
     return item_list
 

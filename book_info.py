@@ -1,5 +1,6 @@
 class book:
-    def __init__(self, link, name, price, discount_price, author='', publisher='', publish_date='', type='', image=''):
+    def __init__(self, site, link, name, price, discount_price, author='', publisher='', publish_date='', type='', image='', serialnum=''):
+        self.site = site
         self.link = link
         self.name = name
         self.price = price
@@ -9,9 +10,11 @@ class book:
         self.publish_date = publish_date
         self.type = type
         self.image = image
+        self.serialnum = serialnum
 
     def __str__(self):
         info = f"""{'+-'*30}
+網站: {self.site}
 連結: {self.link}
 書名: {self.name}
 原價: {self.price}
