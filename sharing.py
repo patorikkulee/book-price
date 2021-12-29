@@ -41,8 +41,3 @@ def search_sharing(keyword:str):
         item_list.append(book('新學林', link, name, price, discount_price, author, publisher, publish_date, image=image))
     
     return item_list
-
-
-test = search_sharing("民法")
-for each in test:
-    print(each)

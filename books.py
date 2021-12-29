@@ -23,13 +23,12 @@ def search_books(keyword:str):
 
     misc = items.find_all("li")
     for i in range(len(misc)//2):
-        booktype, author, publisher, publish_date = [preprocess_string(x) for x in misc[2*i].text.split(',')]
+        try:
+            booktype, author, publisher, publish_date = [preprocess_string(x) for x in misc[2*i].text.split(',')]
+        except:
+            print([preprocess_string(x) for x in misc[2*i].text.split(',')])
         publish_date = publish_date.split(':')[-1]
         discount_price = misc[2*i+1].text.split(':')[-1]
         item_list.append(book('博客來', links[i], names[i], '??', discount_price, author, publisher, publish_date, booktype, imgs[i]))
     
     return item_list
-
-test = search_books("民法")
-for each in test:
-    print(each)

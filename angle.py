@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bs
 from book_info import book
 
 domain = 'https://www.angle.com.tw/'
+
 def str_encode(s:str):
     s = s.encode('big5').__str__()
     s = s.lstrip("b'").rstrip("'")
@@ -43,7 +44,3 @@ def search_angle(keyword:str):
         item_list.append(book('元照', link, name, price, discount_price, author, publisher, serialnum=serialnum))
 
     return item_list
-
-test = search_angle("民法")
-for each in test:
-    print(each)
