@@ -34,8 +34,8 @@ def search_angle(keyword:str):
         link = domain + info[1].find('a')['href']
         author = preprocess_string(info[2].text)
         publisher = preprocess_string(info[3].text)
-        price = preprocess_string(info[4].text)
-        discount_price = preprocess_string(info[5].text)
+        price = int(preprocess_string(info[4].text))
+        discount_price = int(preprocess_string(info[5].text))
         
         item_list.append(book('元照', link, name, price, discount_price, author, publisher, serialnum=serialnum))
 

@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from book_info import book
+import sys, re
 
+regex = r'^.* (\d+) 元$'
 def preprocess_string(s:str):
     s = s.replace(' ', '')
     s = s.replace('\n', '')
@@ -29,6 +31,8 @@ def search_books(keyword:str):
             print([preprocess_string(x) for x in misc[2*i].text.split(',')])
         publish_date = publish_date.split(':')[-1]
         discount_price = misc[2*i+1].text.split(':')[-1]
-        item_list.append(book('博客來', links[i], names[i], '??', discount_price, author, publisher, publish_date, booktype, imgs[i]))
+        
+        discount_price = int(re.search(regex, discount_price).group(1))
+        item_list.append(book('博客來', links[i], names[i], 0, discount_price, author, publisher, publish_date, booktype, imgs[i]))
     
     return item_list

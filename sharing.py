@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup as bs 
-from book_info import book
+from book_info import *
+import re
 
 domain = 'https://sharing.com.tw/'
+regex = r'.*！(\d+)元'
 
 def search_sharing(keyword:str):
     url = f'https://sharing.com.tw/book_list_s.php?book_whit=0&book_data={keyword}&MM_update=form1'
@@ -26,18 +28,32 @@ def search_sharing(keyword:str):
         except AttributeError:
             author = ""
 
-        publish_date = price = discount_price = ''
+        publish_date = ''
+        price = discount_price = int()
 
         for j in i.find_all("td", {"class": "publishertype"}):
             info = j.text
-            
+
             if '出版日' in info:
                 publish_date = info.split('：')[-1]
             elif '定價' in info:
                 price = info.split('：')[-1]
+                price = int(price.rstrip('元'))
             elif '特價' in info:
-                discount_price = info.split('：')[-1]
+                discount_price = re.search(regex, info.split('：')[-1]).group(1)
+                if discount_price is None or discount_price=='':
+                    discount_price = 0
+                else:
+                    discount_price = int(discount_price)
+                
+            print(type(price), type(discount_price))
 
         item_list.append(book('新學林', link, name, price, discount_price, author, publisher, publish_date, image=image))
     
     return item_list
+
+test = booklist(search_sharing('民法'))
+test = test.sort_price()
+
+for i in test:
+    print(i.lowest_price)

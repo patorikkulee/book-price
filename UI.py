@@ -1,4 +1,5 @@
 from tkinter import *
+from book_info import *
 from angle import search_angle
 from books import search_books
 from sharing import search_sharing
@@ -7,8 +8,8 @@ from tkhtmlview import HTMLLabel
 
 
 def search_all(keyword:str)->list:
-    itemlist = search_angle(keyword)
-    itemlist += search_books(keyword)
+    itemlist = search_books(keyword)
+    itemlist += search_angle(keyword)
     itemlist += search_sharing(keyword)
     
     return itemlist
@@ -41,13 +42,14 @@ def clear():
 # search books
 def search():
     keyword = entry.get(1.0, END).rstrip('\n')
-    itemlist = search_all(keyword)
+    itemlist = booklist(search_all(keyword))
+    itemlist = itemlist.sort_price()
     # listbox.insert("end", *itemlist)
     list_html = ''.join([i.get_html() for i in itemlist])
     html_label = HTMLLabel(window, html='<table>'+list_html+'</table>')
     html_label.pack(fill='both', expand=True)
-    # html_label.fit_height()
-    
+    html_label.fit_height()
+
 
 # label for entry
 entry_label = Label(window, text="輸入書名")
@@ -73,15 +75,5 @@ clear_button.grid(row=0, column=2)
 output_label = Label(window, text="搜尋結果")
 output_label.pack(pady=10)
 
-# listbox for search results
-# listbox = Listbox(window)
-# listbox.pack()
-
-'''
-# html
-html_label = HTMLLabel(window, html='<table>'+list_html+'</table>')
-html_label.pack(fill="both", expand=True)
-html_label.fit_height()
-'''
 
 window.mainloop()
