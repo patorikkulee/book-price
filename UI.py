@@ -2,9 +2,9 @@ from tkinter import *
 from angle import search_angle
 from books import search_books
 from sharing import search_sharing
+from tkhtmlview import HTMLLabel
+# from PIL import Image
 
-def populateListbox(items):
-    listbox.insert("end", *items)
 
 def search_all(keyword:str)->list:
     itemlist = search_angle(keyword)
@@ -15,6 +15,7 @@ def search_all(keyword:str)->list:
 
 window = Tk() # open new window
 window.title('法律書籍比價搜尋') # set title
+window.iconbitmap('law_icon.ico') # set icon
 window.geometry('800x600') # set window size
 
 # set key bindings
@@ -34,11 +35,19 @@ window.bind_all("<Key>", _onKeyRelease, "+")
 # clear all text boxes
 def clear():
     entry.delete(1.0, END)
+    # listbox.delete(0, END)
+    HTMLLabel.delete(0, END)
 
+# search books
 def search():
     keyword = entry.get(1.0, END).rstrip('\n')
     itemlist = search_all(keyword)
-    listbox.insert("end", *itemlist)
+    # listbox.insert("end", *itemlist)
+    list_html = ''.join([i.get_html() for i in itemlist])
+    html_label = HTMLLabel(window, html='<table>'+list_html+'</table>')
+    html_label.pack(fill='both', expand=True)
+    # html_label.fit_height()
+    
 
 # label for entry
 entry_label = Label(window, text="輸入書名")
@@ -64,7 +73,15 @@ clear_button.grid(row=0, column=2)
 output_label = Label(window, text="搜尋結果")
 output_label.pack(pady=10)
 
-listbox = Listbox(window)
-listbox.pack()
+# listbox for search results
+# listbox = Listbox(window)
+# listbox.pack()
+
+'''
+# html
+html_label = HTMLLabel(window, html='<table>'+list_html+'</table>')
+html_label.pack(fill="both", expand=True)
+html_label.fit_height()
+'''
 
 window.mainloop()

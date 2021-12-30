@@ -1,6 +1,4 @@
 import requests
-import codecs
-import ast
 from bs4 import BeautifulSoup as bs
 from book_info import book
 
@@ -10,7 +8,6 @@ def str_encode(s:str):
     s = s.encode('big5').__str__()
     s = s.lstrip("b'").rstrip("'")
     s = s.replace('\\x', '%')
-
     return s
 
 def preprocess_string(s:str):
@@ -21,7 +18,6 @@ def preprocess_string(s:str):
     return s
 
 def search_angle(keyword:str):
-        
     keyword = str_encode(keyword)
     url = f'http://www.angle.com.tw/search.asp?keyword={keyword}&col=1'
     page = requests.get(url)

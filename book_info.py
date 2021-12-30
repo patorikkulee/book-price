@@ -13,6 +13,9 @@ class book:
         self.serialnum = serialnum
 
     def __str__(self):
+        return f"{self.site} : {self.name}"
+
+    def __repr__(self):
         info = f"""{'+-'*30}
 網站: {self.site}
 連結: {self.link}
@@ -25,3 +28,22 @@ class book:
 類別: {self.type}
 圖示: {self.image}"""
         return info
+
+    def get_html(self):
+        td = f'''    <tr>
+        <td align="left">
+            <img src="{self.image}" width="100" height="150">
+        </td>
+        <td align="right">
+            網站: {self.site}<br>
+            <a href="{self.link}">{self.name}</a><br>
+            原價: {self.price}<br>
+            特價:  {self.discount_price}<br>
+            作者: {self.author}<br>
+            出版社: {self.publisher}<br>
+            出版日期: {self.publish_date}<br>
+            類別: {self.type}<br>
+        </td>
+    </tr>
+'''
+        return td
