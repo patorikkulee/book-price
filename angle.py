@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from book_info import book
+from book_info import *
 
 domain = 'https://www.angle.com.tw/'
 
@@ -12,6 +12,7 @@ def str_encode(s:str):
 
 def preprocess_string(s:str):
     s = s.replace(' ', '')
+    s = s.replace(',', '')
     s = s.replace('\r', '')
     s = s.replace('\n', '')
     s = s.replace('\xa0', '')

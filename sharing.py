@@ -46,14 +46,6 @@ def search_sharing(keyword:str):
                 else:
                     discount_price = int(discount_price)
                 
-            print(type(price), type(discount_price))
-
         item_list.append(book('新學林', link, name, price, discount_price, author, publisher, publish_date, image=image))
     
     return item_list
-
-test = booklist(search_sharing('民法'))
-test = test.sort_price()
-
-for i in test:
-    print(i.lowest_price)

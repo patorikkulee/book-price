@@ -4,21 +4,27 @@ from angle import search_angle
 from books import search_books
 from sharing import search_sharing
 from tkhtmlview import HTMLLabel
-# from PIL import Image
 
-
-def search_all(keyword:str)->list:
-    itemlist = search_books(keyword)
-    itemlist += search_angle(keyword)
-    itemlist += search_sharing(keyword)
-    
-    return itemlist
 
 window = Tk() # open new window
 window.title('法律書籍比價搜尋') # set title
 window.iconbitmap('law_icon.ico') # set icon
 window.geometry('800x600') # set window size
 
+html_head = """<!DOCTYPE html>
+<html lang="zh-tw">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <table>
+"""
+
+html_tail = """        </table>
+    </body>
+</html>
+
+"""
 # set key bindings
 def _onKeyRelease(event):
     ctrl  = (event.state & 0x4) != 0
@@ -33,20 +39,32 @@ def _onKeyRelease(event):
 
 window.bind_all("<Key>", _onKeyRelease, "+")
 
+
+def search_all(keyword:str)->list:
+    itemlist = search_books(keyword)
+    itemlist += search_angle(keyword)
+    itemlist += search_sharing(keyword)
+    
+    return itemlist
+
+
 # clear all text boxes
 def clear():
     entry.delete(1.0, END)
-    # listbox.delete(0, END)
-    HTMLLabel.delete(0, END)
+    html_label = HTMLLabel(window, html='<head></head>')
+    html_label.pack(fill='both', expand=True)
+    html_label.fit_height()
+    # HTMLLabel.delete(0, END)
+
 
 # search books
 def search():
     keyword = entry.get(1.0, END).rstrip('\n')
-    itemlist = booklist(search_all(keyword))
-    itemlist = itemlist.sort_price()
+    itemlist = search_all(keyword)
+    itemlist = sort_price(itemlist)
     # listbox.insert("end", *itemlist)
     list_html = ''.join([i.get_html() for i in itemlist])
-    html_label = HTMLLabel(window, html='<table>'+list_html+'</table>')
+    html_label = HTMLLabel(window, html=html_head + list_html + html_tail)
     html_label.pack(fill='both', expand=True)
     html_label.fit_height()
 

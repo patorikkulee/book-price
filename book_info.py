@@ -29,8 +29,8 @@ class book:
 網站: {self.site}
 連結: {self.link}
 書名: {self.name}
-原價: {self.price}
-特價: {self.discount_price}
+原價: {self.price if self.price != 0 else '無'}
+特價: {self.discount_price if self.discount_price != 0 else '無'}
 作者: {self.author}
 出版社: {self.publisher}
 出版日期: {self.publish_date}
@@ -40,14 +40,14 @@ class book:
 
     def get_html(self):
         td = f'''    <tr>
-        <td style="text-align: center;">
-            <img src="{self.image}" width="100" height="150">
+        <td align="left">
+            <img src="{self.image}" width="200" height="300">
         </td>
-        <td style="text-align: center;">
+        <td align="right", valign="top">
             網站: {self.site}<br>
             <a href="{self.link}">{self.name}</a><br>
-            原價: {self.price}<br>
-            特價:  {self.discount_price}<br>
+            原價: {self.price if self.price != 0 else '無'}<br>
+            特價:  {self.discount_price if self.discount_price != 0 else '無'}<br>
             作者: {self.author}<br>
             出版社: {self.publisher}<br>
             出版日期: {self.publish_date}<br>
@@ -58,6 +58,7 @@ class book:
 '''
         return td
 
+'''
 class booklist:
     def __init__(self, books):
         self.books = books
@@ -66,3 +67,8 @@ class booklist:
         if ascending==False:
             return sorted(self.books, key=lambda x: x.lowest_price, reverse=True)
         return sorted(self.books, key=lambda x: x.lowest_price)
+'''
+def sort_price(bookslist, ascending=True):
+    if ascending==False:
+        return sorted(bookslist, key=lambda x: x.lowest_price, reverse=True)
+    return sorted(bookslist, key=lambda x: x.lowest_price)

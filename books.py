@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from book_info import book
-import sys, re
+from book_info import *
+import re
 
 regex = r'^.* (\d+) 元$'
 def preprocess_string(s:str):
