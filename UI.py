@@ -18,11 +18,13 @@ html_head = '''<!DOCTYPE html>
     </head>
     <body>
 '''
-
 html_tail = """    </body>
 </html>
 
 """
+html_final = '<head></head>'
+itemlist = []
+
 # set key bindings
 def _onKeyRelease(event):
     ctrl  = (event.state & 0x4) != 0
@@ -38,6 +40,7 @@ def _onKeyRelease(event):
 window.bind_all("<Key>", _onKeyRelease, "+")
 
 
+# search 3 sites and return list of books
 def search_all(keyword:str)->list:
     itemlist = search_books(keyword)
     itemlist += search_angle(keyword)
@@ -45,14 +48,13 @@ def search_all(keyword:str)->list:
     
     return itemlist
 
-html_final = '<head></head>'
 
 # clear all text boxes
 def clear():
     entry.delete(1.0, END)
     html_label.set_html(html='<head></head>')
 
-itemlist = []
+
 # search books
 def search():
     keyword = entry.get(1.0, END).rstrip('\n')
@@ -64,12 +66,14 @@ def search():
     html_final = html_head + list_html + html_tail
     html_label.set_html(html=html_final)
 
+
 def sort_descending():
     global itemlist
     itemlist = itemlist[::-1]
     list_html = ''.join([i.get_html() for i in itemlist])
     html_final = html_head + list_html + html_tail
     html_label.set_html(html=html_final)
+
 
 # label for entry
 entry_label = Label(window, text="輸入書名")

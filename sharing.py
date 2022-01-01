@@ -4,7 +4,8 @@ from book_info import *
 import re
 
 domain = 'https://sharing.com.tw/'
-regex = r'.*！(\d+)元'
+regex = r'.*！(\d+)元' # search price using regex
+
 
 def search_sharing(keyword:str):
     url = f'https://sharing.com.tw/book_list_s.php?book_whit=0&book_data={keyword}&MM_update=form1'
@@ -15,6 +16,8 @@ def search_sharing(keyword:str):
     imgs = soup.find_all("td", {"align": "center"})
 
     item_list = []
+
+    # get information of each item
     for i, img in list(zip(items, imgs)):
         name_block = i.find("td", {"class": "publishername"})
         name = name_block.text.lstrip('\n')
@@ -47,8 +50,6 @@ def search_sharing(keyword:str):
                 discount_price = re.search(regex, info.split('：')[-1])
                 if discount_price is not None:
                     discount_price = int(discount_price.group(1))
-                # if discount_price is None or discount_price=='':
-                #     discount_price = 0
                 else:
                     discount_price = 0
                 

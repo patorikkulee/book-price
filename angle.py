@@ -4,12 +4,15 @@ from book_info import *
 
 domain = 'https://www.angle.com.tw/'
 
+# encode search string to big5
 def str_encode(s:str):
     s = s.encode('big5').__str__()
     s = s.lstrip("b'").rstrip("'")
     s = s.replace('\\x', '%')
     return s
 
+
+# remove redundant parts in string
 def preprocess_string(s:str):
     s = s.replace(' ', '')
     s = s.replace(',', '')
@@ -17,6 +20,7 @@ def preprocess_string(s:str):
     s = s.replace('\n', '')
     s = s.replace('\xa0', '')
     return s
+
 
 def search_angle(keyword:str):
     keyword = str_encode(keyword)
@@ -28,6 +32,8 @@ def search_angle(keyword:str):
     items = soup.find_all('tr')[12:-8]
 
     item_list = []
+    
+    # get information of each item
     for each in items:
         info = each.find_all('td')
         serialnum = preprocess_string(info[0].text)

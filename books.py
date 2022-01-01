@@ -3,12 +3,15 @@ from bs4 import BeautifulSoup as bs
 from book_info import *
 import re
 
-regex = r'^.* (\d+) 元$'
+regex = r'^.* (\d+) 元$' # search price using regex
+
+# remove redundant parts in string
 def preprocess_string(s:str):
     s = s.replace(' ', '')
     s = s.replace('\n', '')
     s = s.replace('\xa0', ', ')
     return s
+
 
 def search_books(keyword:str):
     url = f'https://search.books.com.tw/search/query/key/{keyword}/cat/all'
@@ -17,6 +20,7 @@ def search_books(keyword:str):
 
     item_list = []
 
+    # get information of each item
     items = soup.find("table", {"id": "itemlist_table"})
     names = [x.text for x in items.find_all("a", rel="mid_name")]
     links = ['https:'+x['href'] for x in items.find_all("a", rel="mid_name")]
