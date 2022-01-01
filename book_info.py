@@ -21,15 +21,13 @@ class book:
         else:
             return min(self.price, self.discount_price)
 
-    # def __str__(self):
-    #     return f"{self.site} : {self.name}"
 
     def __str__(self):
         info = f"""{'--'*30}
 網站: {self.site}
 連結: {self.link}
 書名: {self.name}
-原價: {self.price if self.price != 0 else '無'}
+原價: {self.price if self.price != 0 else ''}
 特價: {self.discount_price if self.discount_price != 0 else '無'}
 作者: {self.author}
 出版社: {self.publisher}
@@ -39,35 +37,23 @@ class book:
         return info
 
     def get_html(self):
-        td = f'''    <tr>
-        <td align="left">
-            <img src="{self.image}" width="200" height="300">
-        </td>
-        <td align="right", valign="top">
-            網站: {self.site}<br>
-            <a href="{self.link}">{self.name}</a><br>
-            原價: {self.price if self.price != 0 else '無'}<br>
-            特價:  {self.discount_price if self.discount_price != 0 else '無'}<br>
-            作者: {self.author}<br>
-            出版社: {self.publisher}<br>
-            出版日期: {self.publish_date}<br>
-            類別: {self.type}<br>
-            ----------------------------<br>
-        </td>
-    </tr>
+        td = f'''
+        <img src="{self.image}" width="135" height="200"><br>
+        <a href="{self.link}">{self.name}</a><br>
+        <ul>
+        <li>網站: {self.site}</li>
+        <li>原價: {self.price if self.price != 0 else '無'}</li>
+        <li>特價:  {self.discount_price if self.discount_price != 0 else '無'}</li>
+        <li>作者: {self.author}</li>
+        <li>出版社: {self.publisher}</li>
+        <li>出版日期: {self.publish_date}</li>
+        <li>類別: {self.type}</li>
+        </ul>
+        -------------------------------<br>
 '''
         return td
 
-'''
-class booklist:
-    def __init__(self, books):
-        self.books = books
-    
-    def sort_price(self, ascending=True):
-        if ascending==False:
-            return sorted(self.books, key=lambda x: x.lowest_price, reverse=True)
-        return sorted(self.books, key=lambda x: x.lowest_price)
-'''
+
 def sort_price(bookslist, ascending=True):
     if ascending==False:
         return sorted(bookslist, key=lambda x: x.lowest_price, reverse=True)

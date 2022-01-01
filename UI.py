@@ -9,19 +9,17 @@ from tkhtmlview import HTMLLabel
 window = Tk() # open new window
 window.title('法律書籍比價搜尋') # set title
 window.iconbitmap('law_icon.ico') # set icon
-window.geometry('800x600') # set window size
+window.geometry('500x600') # set window size
 
-html_head = """<!DOCTYPE html>
+html_head = '''<!DOCTYPE html>
 <html lang="zh-tw">
     <head>
         <meta charset="utf-8">
     </head>
     <body>
-        <table>
-"""
+'''
 
-html_tail = """        </table>
-    </body>
+html_tail = """    </body>
 </html>
 
 """
@@ -47,27 +45,31 @@ def search_all(keyword:str)->list:
     
     return itemlist
 
+html_final = '<head></head>'
 
 # clear all text boxes
 def clear():
     entry.delete(1.0, END)
-    html_label = HTMLLabel(window, html='<head></head>')
-    html_label.pack(fill='both', expand=True)
-    html_label.fit_height()
-    # HTMLLabel.delete(0, END)
+    html_label.set_html(html='<head></head>')
 
-
+itemlist = []
 # search books
 def search():
     keyword = entry.get(1.0, END).rstrip('\n')
+    global itemlist
     itemlist = search_all(keyword)
     itemlist = sort_price(itemlist)
-    # listbox.insert("end", *itemlist)
+    
     list_html = ''.join([i.get_html() for i in itemlist])
-    html_label = HTMLLabel(window, html=html_head + list_html + html_tail)
-    html_label.pack(fill='both', expand=True)
-    html_label.fit_height()
+    html_final = html_head + list_html + html_tail
+    html_label.set_html(html=html_final)
 
+def sort_descending():
+    global itemlist
+    itemlist = itemlist[::-1]
+    list_html = ''.join([i.get_html() for i in itemlist])
+    html_final = html_head + list_html + html_tail
+    html_label.set_html(html=html_final)
 
 # label for entry
 entry_label = Label(window, text="輸入書名")
@@ -85,13 +87,21 @@ button_frame.pack()
 search_button = Button(button_frame, text='搜尋', command=search)
 search_button.grid(row=0, column=1)
 
+# create sort price descending button
+clear_button = Button(button_frame, text='價格由高到低', command=sort_descending)
+clear_button.grid(row=0, column=2)
+
 # create clear button
 clear_button = Button(button_frame, text='清除', command=clear)
-clear_button.grid(row=0, column=2)
+clear_button.grid(row=0, column=3)
 
 # label for search result
 output_label = Label(window, text="搜尋結果")
 output_label.pack(pady=10)
 
+# html
+html_label = HTMLLabel(window, html=html_final)
+html_label.pack(fill='both', expand=True)
+html_label.fit_height()
 
 window.mainloop()

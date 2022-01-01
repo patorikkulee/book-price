@@ -20,7 +20,11 @@ def search_sharing(keyword:str):
         name = name_block.text.lstrip('\n')
         link = domain + name_block.find("a")['href']
 
-        publisher = i.find("td", {"class": "publisher"}).text.split('：')[-1]
+        publisher = i.find("td", {"class": "publisher"})
+        if publisher is not None:
+            publisher = i.find("td", {"class": "publisher"}).text.split('：')[-1]
+        else:
+            publisher = ''
         image = domain + img.find('img')['src']
 
         try:
@@ -40,11 +44,13 @@ def search_sharing(keyword:str):
                 price = info.split('：')[-1]
                 price = int(price.rstrip('元'))
             elif '特價' in info:
-                discount_price = re.search(regex, info.split('：')[-1]).group(1)
-                if discount_price is None or discount_price=='':
-                    discount_price = 0
+                discount_price = re.search(regex, info.split('：')[-1])
+                if discount_price is not None:
+                    discount_price = int(discount_price.group(1))
+                # if discount_price is None or discount_price=='':
+                #     discount_price = 0
                 else:
-                    discount_price = int(discount_price)
+                    discount_price = 0
                 
         item_list.append(book('新學林', link, name, price, discount_price, author, publisher, publish_date, image=image))
     
