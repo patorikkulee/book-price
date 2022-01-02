@@ -92,7 +92,7 @@ search_button = Button(button_frame, text='搜尋', command=search)
 search_button.grid(row=0, column=1)
 
 # create sort price descending button
-clear_button = Button(button_frame, text='價格由高到低', command=sort_descending)
+clear_button = Button(button_frame, text='切換價格排序', command=sort_descending)
 clear_button.grid(row=0, column=2)
 
 # create clear button
