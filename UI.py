@@ -42,10 +42,9 @@ window.bind_all("<Key>", _onKeyRelease, "+")
 
 # search 3 sites and return list of books
 def search_all(keyword:str)->list:
-    itemlist = search_books(keyword)
-    itemlist += search_angle(keyword)
-    itemlist += search_sharing(keyword)
-    
+    a, b, c = search_angle(keyword), search_books(keyword), search_sharing(keyword)
+    itemlist = a + b + c
+
     return itemlist
 
 
