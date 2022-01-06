@@ -12,10 +12,10 @@
 5. 按下清除鍵即可再次搜尋
 
 初始畫面
-![idle.png](https://github.com/sexypatrick/chinese-converter/blob/main/idle.png)
+![idle.png](https://github.com/sexypatrick/book-price/blob/main/idle.png)
 
 搜尋結果
-![result.png](https://github.com/sexypatrick/chinese-converter/blob/main/result.png)
+![result.png](https://github.com/sexypatrick/book-price/blob/main/result.png)
 
 反向排序
-![price_desc.png](https://github.com/sexypatrick/chinese-converter/blob/main/price_desc.png)
+![price_desc.png](https://github.com/sexypatrick/book-price/blob/main/price_desc.png)
